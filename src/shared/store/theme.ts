@@ -1,6 +1,11 @@
 import { create } from 'zustand';
 
-export const useThemeStore = create((set) => ({
+type ThemeState = {
+  mode: 'dark' | 'light';
+  toggle: () => void;
+};
+
+export const useThemeStore = create<ThemeState>((set) => ({
   mode: 'dark',
   toggle: () =>
     set((state) => ({

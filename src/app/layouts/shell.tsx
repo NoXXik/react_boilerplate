@@ -1,17 +1,26 @@
-import { Fragment } from 'react';
-import { BarChart3, Bell, Moon, Sun, Users } from 'lucide-react';
+import type { ReactNode } from 'react';
+import { BarChart3, Bell, Moon, Sun, Users, type LucideIcon } from 'lucide-react';
 import { useThemeStore } from '../../shared/store/theme';
 import { Button } from '../../shared/ui/button';
 import { Card } from '../../shared/ui/card';
 import { cn } from '../../shared/lib/utils';
 
-const navItems = [
+type NavItem = {
+  label: string;
+  icon: LucideIcon;
+};
+
+const navItems: NavItem[] = [
   { label: 'Обзор', icon: BarChart3 },
   { label: 'Команда', icon: Users },
   { label: 'События', icon: Bell },
 ];
 
-export function AppShell({ children }) {
+type AppShellProps = {
+  children: ReactNode;
+};
+
+export function AppShell({ children }: AppShellProps) {
   const { mode, toggle } = useThemeStore();
 
   return (
@@ -58,7 +67,12 @@ export function AppShell({ children }) {
   );
 }
 
-function SideNavItem({ label, icon: Icon }) {
+type SideNavItemProps = {
+  label: string;
+  icon: LucideIcon;
+};
+
+function SideNavItem({ label, icon: Icon }: SideNavItemProps) {
   return (
     <button
       className={cn(

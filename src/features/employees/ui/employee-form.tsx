@@ -1,25 +1,33 @@
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
-import { employeeSchema } from '../model/schema';
+import { employeeSchema, type EmployeeFormValues } from '../model/schema';
 import { Button } from '../../../shared/ui/button';
 import { Input } from '../../../shared/ui/input';
 import { Label } from '../../../shared/ui/label';
 import { Select } from '../../../shared/ui/select';
 import { Textarea } from '../../../shared/ui/textarea';
 
-export function EmployeeForm({ defaultValues, onSubmit, submitting }) {
-  const form = useForm({
+type EmployeeFormProps = {
+  defaultValues?: EmployeeFormValues;
+  onSubmit: (values: EmployeeFormValues) => Promise<void> | void;
+  submitting?: boolean;
+};
+
+const emptyValues: EmployeeFormValues = {
+  name: '',
+  email: '',
+  department: '',
+  role: '',
+  salary: 0,
+  status: 'Активен',
+  notes: '',
+};
+
+export function EmployeeForm({ defaultValues, onSubmit, submitting }: EmployeeFormProps) {
+  const form = useForm<EmployeeFormValues>({
     resolver: zodResolver(employeeSchema),
-    defaultValues: defaultValues ?? {
-      name: '',
-      email: '',
-      department: '',
-      role: '',
-      salary: 0,
-      status: 'Активен',
-      notes: '',
-    },
+    defaultValues: defaultValues ?? emptyValues,
   });
 
   useEffect(() => {

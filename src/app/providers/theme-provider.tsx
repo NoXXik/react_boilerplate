@@ -1,7 +1,11 @@
-import { useEffect } from 'react';
+import { useEffect, type ReactNode } from 'react';
 import { useThemeStore } from '../../shared/store/theme';
 
-export function ThemeProvider({ children }) {
+type ThemeProviderProps = {
+  children: ReactNode;
+};
+
+export function ThemeProvider({ children }: ThemeProviderProps) {
   const { mode } = useThemeStore();
 
   useEffect(() => {

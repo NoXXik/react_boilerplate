@@ -1,7 +1,20 @@
 import { create } from 'zustand';
 import { immer } from 'zustand/middleware/immer';
+import type { Employee } from '../../../entities/employees/types';
 
-export const useEmployeeUIStore = create(
+type EmployeeUIState = {
+  search: string;
+  department: string;
+  dialogOpen: boolean;
+  editing: Employee | null;
+  setSearch: (value: string) => void;
+  setDepartment: (value: string) => void;
+  openCreate: () => void;
+  openEdit: (employee: Employee) => void;
+  closeDialog: () => void;
+};
+
+export const useEmployeeUIStore = create<EmployeeUIState>()(
   immer((set) => ({
     search: '',
     department: 'all',

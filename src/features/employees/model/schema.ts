@@ -7,11 +7,11 @@ export const employeeSchema = z.object({
   department: z.string().min(2, 'Выберите отдел'),
   role: z.string().min(2, 'Укажите роль'),
   salary: z
-    .number({
-      invalid_type_error: 'Введите число',
-    })
+    .number()
     .min(1, 'Зарплата должна быть > 0'),
-  status: z.string().min(2, 'Статус обязателен'),
+  status: z.enum(['Активен', 'В отпуске', 'Уволен']),
   notes: z.string().optional(),
 });
+
+export type EmployeeFormValues = z.infer<typeof employeeSchema>;
 

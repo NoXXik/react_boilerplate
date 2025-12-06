@@ -33,7 +33,13 @@ export function DashboardPage() {
   );
 }
 
-function MetricCard({ title, value, hint }) {
+type MetricCardProps = {
+  title: string;
+  value: string | number;
+  hint: string;
+};
+
+function MetricCard({ title, value, hint }: MetricCardProps) {
   return (
     <Card>
       <CardHeader title={title} />

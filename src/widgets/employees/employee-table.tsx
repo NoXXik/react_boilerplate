@@ -2,15 +2,17 @@ import { useMemo } from 'react';
 import { createColumnHelper, flexRender, getCoreRowModel, getSortedRowModel, useReactTable } from '@tanstack/react-table';
 import { Plus, RefreshCw } from 'lucide-react';
 import { useEmployeesQuery, useSaveEmployeeMutation } from '../../entities/employees/hooks';
+import type { Employee, EmployeePayload } from '../../entities/employees/types';
 import { useEmployeeUIStore } from '../../features/employees/model/store';
 import { EmployeeForm } from '../../features/employees/ui/employee-form';
+import type { EmployeeFormValues } from '../../features/employees/model/schema';
 import { Badge } from '../../shared/ui/badge';
 import { Button } from '../../shared/ui/button';
 import { Dialog, DialogContent, DialogHeader } from '../../shared/ui/dialog';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '../../shared/ui/table';
 import { Card, CardContent, CardHeader } from '../../shared/ui/card';
 
-const columnHelper = createColumnHelper();
+const columnHelper = createColumnHelper<Employee>();
 
 export function EmployeeTable() {
   const { data, isLoading, refetch } = useEmployeesQuery();
@@ -76,8 +78,9 @@ export function EmployeeTable() {
     getSortedRowModel: getSortedRowModel(),
   });
 
-  const handleSubmit = async (values) => {
-    await mutateAsync(values);
+  const handleSubmit = async (values: EmployeeFormValues) => {
+    const payload: EmployeePayload = { ...values };
+    await mutateAsync(payload);
     closeDialog();
   };
 
@@ -125,7 +128,7 @@ export function EmployeeTable() {
                 ))}
                 {table.getRowModel().rows.length === 0 ? (
                   <TableRow>
-                    <TableCell colSpan={columns.length} className="text-center text-slate-400">
+                    <TableCell className="text-center text-slate-400">
                       Нет данных по текущим фильтрам.
                     </TableCell>
                   </TableRow>
@@ -136,7 +139,7 @@ export function EmployeeTable() {
         </div>
       </CardContent>
 
-      <Dialog open={dialogOpen} onOpenChange={closeDialog}>
+      <Dialog open={dialogOpen} onOpenChange={(open) => (!open ? closeDialog() : undefined)}>
         <DialogContent>
           <DialogHeader title={editing ? 'Редактирование сотрудника' : 'Новый сотрудник'} description="react-hook-form + Zod, сохранение через TanStack Query" />
           <EmployeeForm defaultValues={editing ?? undefined} onSubmit={handleSubmit} submitting={isPending} />

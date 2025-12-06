@@ -1,20 +1,18 @@
+import type { ReactNode } from 'react';
 import * as DialogPrimitive from '@radix-ui/react-dialog';
 import { X } from 'lucide-react';
 import { cn } from '../lib/utils';
 
-export function Dialog({ children, ...props }) {
-  return <DialogPrimitive.Root {...props}>{children}</DialogPrimitive.Root>;
-}
+export const Dialog = DialogPrimitive.Root;
+export const DialogTrigger = DialogPrimitive.Trigger;
+export const DialogPortal = DialogPrimitive.Portal;
 
-export function DialogTrigger(props) {
-  return <DialogPrimitive.Trigger {...props} />;
-}
+type OverlayProps = DialogPrimitive.DialogOverlayProps;
+type ContentProps = DialogPrimitive.DialogContentProps & {
+  children: ReactNode;
+};
 
-export function DialogPortal(props) {
-  return <DialogPrimitive.Portal {...props} />;
-}
-
-export function DialogOverlay({ className, ...props }) {
+export function DialogOverlay({ className, ...props }: OverlayProps) {
   return (
     <DialogPrimitive.Overlay
       className={cn('fixed inset-0 z-40 bg-black/60 backdrop-blur-sm data-[state=open]:animate-in data-[state=closed]:animate-out', className)}
@@ -23,7 +21,7 @@ export function DialogOverlay({ className, ...props }) {
   );
 }
 
-export function DialogContent({ className, children, ...props }) {
+export function DialogContent({ className, children, ...props }: ContentProps) {
   return (
     <DialogPortal>
       <DialogOverlay />
@@ -44,7 +42,12 @@ export function DialogContent({ className, children, ...props }) {
   );
 }
 
-export function DialogHeader({ title, description }) {
+type DialogHeaderProps = {
+  title: ReactNode;
+  description?: ReactNode;
+};
+
+export function DialogHeader({ title, description }: DialogHeaderProps) {
   return (
     <div className="mb-4 space-y-2">
       <h3 className="text-lg font-semibold text-slate-50">{title}</h3>
