@@ -79,7 +79,7 @@ export function EmployeeTable() {
   });
 
   const handleSubmit = async (values: EmployeeFormValues) => {
-    const payload: EmployeePayload = { ...values };
+    const payload: EmployeePayload = { ...values, status: values.status as EmployeePayload['status'] };
     await mutateAsync(payload);
     closeDialog();
   };

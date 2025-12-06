@@ -1,4 +1,7 @@
 import { z } from 'zod';
+import type { EmployeeStatus } from '../../../entities/employees/types';
+
+const statuses: EmployeeStatus[] = ['Активен', 'В отпуске', 'Уволен'];
 
 export const employeeSchema = z.object({
   id: z.string().optional(),
@@ -9,7 +12,9 @@ export const employeeSchema = z.object({
   salary: z
     .number()
     .min(1, 'Зарплата должна быть > 0'),
-  status: z.enum(['Активен', 'В отпуске', 'Уволен']),
+  status: z
+    .string()
+    .refine((val): val is EmployeeStatus => statuses.includes(val as EmployeeStatus), 'Статус обязателен'),
   notes: z.string().optional(),
 });
 

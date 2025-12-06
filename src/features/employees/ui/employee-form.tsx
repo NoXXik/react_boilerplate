@@ -92,7 +92,7 @@ export function EmployeeForm({ defaultValues, onSubmit, submitting }: EmployeeFo
             <option value="В отпуске">В отпуске</option>
             <option value="Уволен">Уволен</option>
           </Select>
-          {errors.status ? <p className="text-xs text-red-400">{errors.status.message}</p> : null}
+          {errors.status?.message ? <p className="text-xs text-red-400">{String(errors.status.message)}</p> : null}
         </div>
         <div className="space-y-2">
           <Label htmlFor="notes">Заметки</Label>
